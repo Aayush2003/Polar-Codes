@@ -218,7 +218,133 @@ $$
         $$}
     \end{flushleft}
     
+\end{frame}
+
+\begin{frame}{Digression: Real Or Not?}
+    \begin{itemize}
+        \item<1-> Channel $W^-: U_1 \to (Y_1, Y_2)$. Valid channel.
+        \item<2-> Channel \alt<3>{$W^+: U_2 \to (Y_1, Y_2, \textcolor{red}{U_1})$}{$W^+: U_2 \to (Y_1, Y_2, U_1)$}. \onslide<3->{Not available to receiver.}
+    \end{itemize}
+    \onslide<4->{
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center} \textbf{Theoretical Receiver} \end{center}
+            \onslide<5->{
+            $$
+            \hat{U_1} = \text{Decode}(Y_1, Y_2)
+            $$
+            $$
+            \hat{U_2} = \text{Decode}(Y_1, Y_2, U_1)
+            $$
+            }
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center} \textbf{Practical Receiver} \end{center}
+            \onslide<5->{
+            $$
+            \hat{U_1} = \text{Decode}(Y_1, Y_2)
+            $$
+            $$
+            \hat{U_2} = \text{Decode}(Y_1, Y_2, \hat{U_1})
+            $$
+            }
+        \end{column}
+    \end{columns}
+    }
+    \begin{itemize}
+        \item<6-> Observe that $(\hat{U_1}, \hat{U_2}) \neq (U_1, U_2)$ for practical receiver (also termed \textbf{block error}) only when it is also the case with the theoretical receiver.
+        \item<7-> Therefore, our treatment for these theoretical channels holds for those implemented in practice.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Recursively Polarize}
+\begin{columns}
+    \begin{column}{0.5\linewidth}
+        \begin{itemize}
+            \item<6-> $W^{--}$ is BEC($p^{--}$), $p^{--} = 2p^- - {p^-}^2$
+            \item<7-> $W^{+-}$ is BEC($p^{+-})$, $p^{+-} = 2p^+ - {p^+}^2$
+            \item<8-> $W^{-+}$ is BEC($p^{-+}$), $p^{-+} = {p^-}^2$
+            \item<9-> $W^{++}$ is BEC($p^{++}$), $p^{++} = {p^+}^2$
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+        \begin{figure}[htp]
+            \centering
+            \only<1-2>{
+            \begin{tikzpicture}[channel/.style={rectangle, draw=black!80, fill=white!5, very thick, minimum size=30}, scale=0.8, every node/.style={scale=0.8}]
+                    \node[channel](channel1){$W$};
+                    \node[channel](channel2) at (0, -1.5) {$W$};
+                    \node[XOR, thick] at (-1.5, 0) {};
+                    \node[circle, fill, inner sep = 1.5pt] at (-1.5, -1.5) {};
+                    \draw[->, thick] (-3.3,0) to (-1.7, 0); 
+                    \draw[->, thick] (-1.3,0) to (channel1.west); 
+                    \draw[->, thick] (channel1.east) to (1.8, 0);
+                    \draw[->, thick] (-3.3,-1.5) to (channel2.west); 
+                    \draw[->, thick] (channel2.east) to (1.8, -1.5);
+                    \draw[->, thick] (-1.5,-1.5) to (-1.5, -0.2); 
+                    
+                    \onslide<2>{
+                    \node[channel](channel3) at (0, -3){$W$};
+                    \node[channel](channel4) at (0, -4.5) {$W$};
+                    \node[XOR, thick] at (-1.5, -3) {};
+                    \node[circle, fill, inner sep = 1.5pt] at (-1.5, -4.5) {};
+                    \draw[->, thick] (-3.3,-3) to (-1.7, -3); 
+                    \draw[->, thick] (-1.3,-3) to (channel3.west); 
+                    \draw[->, thick] (channel3.east) to (1.8, -3);
+                    \draw[->, thick] (-3.3,-4.5) to (channel4.west); 
+                    \draw[->, thick] (channel4.east) to (1.8, -4.5);
+                    \draw[->, thick] (-1.5,-4.5) to (-1.5, -3.2); 
+                    }
+                \end{tikzpicture}
+            }
+            \only<3-9>{
+            \begin{tikzpicture}[channel/.style={rectangle, draw=black!80, fill=white!5, very thick, minimum size=30}, scale=0.8, every node/.style={scale=0.8}]
+                    \only<3-4>{
+                    \node[channel](channel1){$W^-$};
+                    \node[channel](channel2) at (0, -1.5) {$W^+$};
+                    \node[channel](channel3) at (0, -3){$W^-$};
+                    \node[channel](channel4) at (0, -4.5) {$W^+$};
+                    }
+                    \only<3,5->{
+                    \draw[->, thick] (-3.3,0) to (channel1.west); 
+                    \draw[->, thick] (-3.3,-1.5) to (channel2.west); 
+                    }
+                    \draw[->, thick] (-3.3,-3) to (channel3.west); 
+                    \draw[->, thick] (channel3.east) to (1.8, -3);
+                    \draw[->, thick] (-3.3,-4.5) to (channel4.west); 
+                    \draw[->, thick] (channel4.east) to (1.8, -4.5);
+                    \draw[->, thick] (channel1.east) to (1.8, 0);
+                    \draw[->, thick] (channel2.east) to (1.8, -1.5);
+                    
+                    \onslide<4>{
+                    \node[XOR, thick] at (-1.5, 0) {};
+                    \draw[->, thick] (-3.3,0) to (-1.7, 0);
+                    \draw[->, thick] (-1.3,0) to (channel1.west);
+                    \node[XOR, thick] at (-2.5, -1.5) {};
+                    \draw[->, thick] (-3.3,-1.5) to (-2.7, -1.5);
+                    \draw[->, thick] (-2.3,-1.5) to (channel2.west);
+                    \node[circle, fill, inner sep = 1.5pt] at (-1.5, -3) {};
+                    \node[circle, fill, inner sep = 1.5pt] at (-2.5, -4.5) {};
+                    \draw[->, thick] (-1.5,-3) to (-1.5, -0.2);
+                    \draw[->, thick] (-2.5,-4.5) to (-2.5, -1.7);
+                    }
+                    \only<5->{
+                    \node[channel](channel1){$W^{--}$};
+                    \node[channel](channel2) at (0, -1.5) {$W^{+-}$};
+                    \node[channel](channel3) at (0, -3){$W^{-+}$};
+                    \node[channel](channel4) at (0, -4.5) {$W^{++}$};
+                    }
+                    
+            \end{tikzpicture}
+            }
+            \only<10->{\includegraphics[width = 0.7\linewidth]{Figures/2stage-removebg-preview.jpg}
+            \caption{Polarized Capacities for BEC(0.5) channel \cite{6852102}}}
+        \end{figure}
+    \end{column}
     
+\end{columns}
+
+\onslide<10-> We can see that the capacity of $W^{++}$ has improved significantly, while that of $W^{--}$ has deteriorated vastly \footnote<10->{Termed the \textbf{Matthew Effect:} The good become better and the bad get worse.}. \onslide<11->{\textcolor{red}{Are we approaching extremal polarization?}}
 \end{frame}
 
 \appendix
@@ -229,3 +355,4 @@ $$
 \end{frame}
 
 \end{document}
+
