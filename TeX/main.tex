@@ -73,7 +73,7 @@ $$
 
 \onslide<2->{
 $$
-H(Y|X) = - \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log p(y|x)
+H(Y|X) = \sum_{x \in \mathcal{X}} p(x) H(Y | X = x)
 $$
 }
 
@@ -619,7 +619,7 @@ Unlike the goal of traditional code construction to maximize the minimum distanc
             \item $W^-: b_1 \to Y_1 Y_3$
             \item $W^-: b_2 \to Y_2 Y_4$
             \item $W^+: b_3 \to Y_1 Y_3 \hat{b_1}$
-            \item $W^+: b_4 \to Y_1 Y_3 \hat{b_2}$\\
+            \item $W^+: b_4 \to Y_2 Y_4 \hat{b_2}$\\
         \end{itemize}
         }
         \end{column}
@@ -797,6 +797,3 @@ Unlike the goal of traditional code construction to maximize the minimum distanc
 \end{frame}
 
 \end{document}
-
-
-
